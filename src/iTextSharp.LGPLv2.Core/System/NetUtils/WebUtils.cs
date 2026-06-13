@@ -19,11 +19,7 @@ public static class WebUtils
         }
 
         var w = WebRequest.Create(url);
-#if NET40
-            return w.GetResponse().GetResponseStream();
-#else
         return w.GetResponseAsync().GetAwaiter().GetResult().GetResponseStream();
-#endif
     }
 
     public static Stream GetResponseStream(this string url) => GetResponseStream(Utilities.ToUrl(url));

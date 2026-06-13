@@ -459,32 +459,6 @@ public class PdfEncryption
                 }
             }
 
-#if NET40
-            HashAlgorithm hashAlgorithm = _revision == AES_256
-                ? new SHA256CryptoServiceProvider()
-                : new SHA1CryptoServiceProvider();
-
-            using var sh = hashAlgorithm;
-            byte[] encodedRecipient = null;
-            var seed = PublicKeyHandler.GetSeed();
-            sh.TransformBlock(seed, inputOffset: 0, seed.Length, seed, outputOffset: 0);
-
-            for (var i = 0; i < PublicKeyHandler.GetRecipientsSize(); i++)
-            {
-                encodedRecipient = PublicKeyHandler.GetEncodedRecipient(i);
-
-                sh.TransformBlock(encodedRecipient, inputOffset: 0, encodedRecipient.Length, encodedRecipient,
-                    outputOffset: 0);
-            }
-
-            if (!_encryptMetadata)
-            {
-                sh.TransformBlock(MetadataPad, inputOffset: 0, MetadataPad.Length, MetadataPad, outputOffset: 0);
-            }
-
-            sh.TransformFinalBlock(seed, inputOffset: 0, inputCount: 0);
-            var mdResult = sh.Hash;
-#else
             byte[] mdResult;
 
             using (var sh = IncrementalHash.CreateHash(_revision == AES_256
@@ -507,7 +481,6 @@ public class PdfEncryption
 
                 mdResult = sh.GetHashAndReset();
             }
-#endif
 
             if (_revision == AES_256)
             {

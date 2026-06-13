@@ -56,18 +56,10 @@ public class OcspClientBouncyCastle : IOcspClient
         con.ContentType = "application/ocsp-request";
         con.Accept = "application/ocsp-response";
         con.Method = "POST";
-#if NET40
-            using var outp = con.GetRequestStream();
-#else
         using var outp = con.GetRequestStreamAsync().Result;
-#endif
         outp.Write(array, 0, array.Length);
 
-#if NET40
-            HttpWebResponse response = (HttpWebResponse)con.GetResponse();
-#else
         using var response = (HttpWebResponse)con.GetResponseAsync().GetAwaiter().GetResult();
-#endif
 
         if (response.StatusCode != HttpStatusCode.OK)
         {
@@ -76,9 +68,6 @@ public class OcspClientBouncyCastle : IOcspClient
 
         using var inp = response.GetResponseStream();
         var ocspResponse = new OcspResp(inp);
-#if NET40
-            response.Close();
-#endif
 
         if (ocspResponse.Status != 0)
         {

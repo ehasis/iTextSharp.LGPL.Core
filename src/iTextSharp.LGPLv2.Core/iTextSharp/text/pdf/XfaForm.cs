@@ -193,9 +193,6 @@ public class XfaForm
             // in the output text ; if we would've used n.WriteContentTo, as
             // the name implies, only the content of the node would have been
             // added, instead of the full node.
-            //
-            // This does require adding the System.Xml.XmlSerializer NuGet package
-            // to the netstandard1.3 target, as it is not available out of the box
             var ser = new XmlSerializer(typeof(XmlNode));
             ser.Serialize(sw, n);
         }

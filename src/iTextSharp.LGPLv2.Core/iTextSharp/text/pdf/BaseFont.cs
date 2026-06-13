@@ -318,13 +318,13 @@ public abstract class BaseFont
     protected static readonly INullValueDictionary<string, BaseFont> FontCache =
         new NullValueDictionary<string, BaseFont>();
 
-#if NET_9 || NET_10
+#if NET9_0_OR_GREATER
     private static readonly Lock _lockObject = new();
 #else
     private static readonly object _lockObject = new();
 #endif
 
-#if NET_9 || NET_10
+#if NET9_0_OR_GREATER
     private static readonly Lock _syncObject = new();
 #else
     private static readonly object _syncObject = new();

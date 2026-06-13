@@ -1,4 +1,4 @@
-﻿using System.util;
+using System.util;
 using System.Xml;
 
 namespace iTextSharp.text.pdf;
@@ -3462,11 +3462,7 @@ public class AcroFields
             set { }
         }
 
-#if NETSTANDARD1_3
-            public void Close()
-#else
         public override void Close()
-#endif
         {
             if (!_closed)
             {

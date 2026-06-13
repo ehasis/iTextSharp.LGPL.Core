@@ -8,7 +8,7 @@ public static class EncodingsRegistry
 {
     static EncodingsRegistry()
     {
-#if !NET40
+#if !NETFRAMEWORK
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 #endif
     }

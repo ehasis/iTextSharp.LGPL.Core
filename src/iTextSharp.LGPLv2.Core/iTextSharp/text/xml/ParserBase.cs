@@ -110,11 +110,7 @@ public abstract class ParserBase
         {
             if (reader != null)
             {
-#if NET40
-                    reader.Close();
-#else
                 reader.Dispose();
-#endif
             }
         }
     }

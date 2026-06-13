@@ -106,7 +106,7 @@ public abstract class Image : Rectangle
     /// </summary>
     private static object _serialId = 0L;
 
-#if NET_9 || NET_10
+#if NET9_0_OR_GREATER
     private static readonly Lock _mutex = new();
 #else
     private static readonly object _mutex = new();

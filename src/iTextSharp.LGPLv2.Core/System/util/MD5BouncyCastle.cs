@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto.Digests;
 
 namespace iTextSharp;
@@ -9,14 +9,10 @@ namespace iTextSharp;
 /// </summary>
 public sealed class MD5BouncyCastle : HashAlgorithm
 {
-#if NET40
-    public new static HashAlgorithm Create() => MD5.Create();
-#else
     public new static HashAlgorithm Create()
         => string.Equals(System.Runtime.InteropServices.RuntimeInformation.OSDescription, b: "Browser", StringComparison.OrdinalIgnoreCase)
             ? new MD5BouncyCastle()
             : MD5.Create();
-#endif
 
     private readonly MD5Digest _digestInternal = new();
 

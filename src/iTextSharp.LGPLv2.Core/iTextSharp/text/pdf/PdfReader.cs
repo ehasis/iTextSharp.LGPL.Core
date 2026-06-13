@@ -4703,32 +4703,6 @@ public class PdfReader : IPdfViewerPreferences, IDisposable
 
             var isAes256 = (cryptoMode & PdfWriter.ENCRYPTION_MASK) == PdfWriter.ENCRYPTION_AES_256;
 
-#if NET40
-            HashAlgorithm hashAlgorithm =
- isAes256 ? new SHA256CryptoServiceProvider() : new SHA1CryptoServiceProvider();
-
-            using (var sh = hashAlgorithm)
-            {
-                sh.TransformBlock(envelopedData, inputOffset: 0, inputCount: 20, envelopedData, outputOffset: 0);
-
-                for (var i = 0; i < recipients.Size; i++)
-                {
-                    var encodedRecipient = recipients[i].GetBytes();
-
-                    sh.TransformBlock(encodedRecipient, inputOffset: 0, encodedRecipient.Length, encodedRecipient,
-                        outputOffset: 0);
-                }
-
-                if ((cryptoMode & PdfWriter.DO_NOT_ENCRYPT_METADATA) != 0)
-                {
-                    sh.TransformBlock(PdfEncryption.MetadataPad, inputOffset: 0, PdfEncryption.MetadataPad.Length,
-                        PdfEncryption.MetadataPad, outputOffset: 0);
-                }
-
-                sh.TransformFinalBlock(envelopedData, inputOffset: 0, inputCount: 0);
-                encryptionKey = sh.Hash;
-            }
-#else
             using (var sh = IncrementalHash.CreateHash(isAes256 ? HashAlgorithmName.SHA256 : HashAlgorithmName.SHA1))
             {
                 sh.AppendData(envelopedData, offset: 0, count: 20);
@@ -4746,7 +4720,6 @@ public class PdfReader : IPdfViewerPreferences, IDisposable
 
                 encryptionKey = sh.GetHashAndReset();
             }
-#endif
         }
 
         decrypt = new PdfEncryption();

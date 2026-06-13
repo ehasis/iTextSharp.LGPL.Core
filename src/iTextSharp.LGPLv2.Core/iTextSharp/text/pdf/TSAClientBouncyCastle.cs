@@ -159,18 +159,10 @@ public class TsaClientBouncyCastle : ITsaClient
             con.Headers["Authorization"] = "Basic " + authInfo;
         }
 
-#if NET40
-            using var outp = con.GetRequestStream();
-#else
         using var outp = con.GetRequestStreamAsync().Result;
-#endif
         outp.Write(requestBytes, 0, requestBytes.Length);
 
-#if NET40
-            HttpWebResponse response = (HttpWebResponse)con.GetResponse();
-#else
         using var response = (HttpWebResponse)con.GetResponseAsync().GetAwaiter().GetResult();
-#endif
         if (response.StatusCode != HttpStatusCode.OK)
         {
             throw new IOException("Invalid HTTP response: " + (int)response.StatusCode);
@@ -186,10 +178,6 @@ public class TsaClientBouncyCastle : ITsaClient
         {
             baos.Write(buffer, 0, bytesRead);
         }
-
-#if NET40
-            response.Close();
-#endif
 
         var respBytes = baos.ToArray();
 
