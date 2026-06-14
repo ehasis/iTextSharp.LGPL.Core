@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Description>iTextSharp.LGPL.Core is a fork of iTextSharp.LGPLv2.Core, which in turn is an unofficial adaptation of the latest LGPL version of iTextSharp (v4.1.6) for .NET Core.</Description>
-        <VersionPrefix>3.9.0</VersionPrefix>
+        <Description>Soyuz.iTextSharp is a fork of iTextSharp.LGPLv2.Core, which in turn is an unofficial adaptation of the latest LGPL version of iTextSharp (v4.1.6) for .NET Core.</Description>
+        <VersionPrefix>3.8.0</VersionPrefix>
         <Authors>Vahid Nasiri</Authors>
-        <TargetFrameworks>net10.0;net8.0;net6.0;netstandard2.0;net472;</TargetFrameworks>
+        <TargetFrameworks>net10.0;net8.0;netstandard2.0;net472;</TargetFrameworks>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <AssemblyName>iTextSharp.LGPL.Core</AssemblyName>
-        <PackageId>iTextSharp.LGPL.Core</PackageId>
+        <AssemblyName>Soyuz.iTextSharp</AssemblyName>
+        <PackageId>Soyuz.iTextSharp</PackageId>
         <PackageTags>PdfReport;Excel;Export;iTextSharp;PDF;Report;Reporting;Persian;.NET Core;aspnetcore</PackageTags>
-        <PackageProjectUrl>https://github.com/ehasis/iTextSharp.LGPL.Core</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/ehasis/iTextSharp.LGPLv2.Core</PackageProjectUrl>
         <PackageLicenseExpression>LGPL-2.0-only</PackageLicenseExpression>
         <DebugType>embedded</DebugType>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -16,6 +16,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>Replace SkiaSharp with a fully-managed RawBitmap</PackageReleaseNotes>
     </PropertyGroup>
     <PropertyGroup>
         <LangVersion>latest</LangVersion>

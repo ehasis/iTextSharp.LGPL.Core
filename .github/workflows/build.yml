@@ -5,6 +5,9 @@ on: [push, pull_request]
 jobs:
   build:
 
+    permissions:
+      id-token: write  # enable GitHub OIDC token issuance for this job
+
     runs-on: windows-2022
 
     steps:
@@ -19,6 +22,13 @@ jobs:
     - name: Run iTextSharp.LGPLv2.Core lib functional tests
       run: dotnet test ./src/iTextSharp.LGPLv2.Core.FunctionalTests/iTextSharp.LGPLv2.Core.FunctionalTests.csproj
       
+    - name: NuGet login (OIDC → temp API key)
+      if: github.event_name == 'push' && github.ref_name == 'master'
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Push Package to NuGet.org
-      if: github.event_name == 'push'
-      run: dotnet nuget push **\*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      if: github.event_name == 'push' && github.ref_name == 'master'
+      run: dotnet nuget push **\*.nupkg -k ${{ steps.login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
